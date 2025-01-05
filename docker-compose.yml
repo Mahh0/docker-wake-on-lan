@@ -1,0 +1,13 @@
+services:
+  nas_control:
+    build: .
+    container_name: nas_control
+    volumes:
+      # A compléter : 
+      - /path/to/local/private_keys:/root/.ssh
+      - /path/to/devices.conf:/usr/local/etc/devices.conf
+    environment:
+      # Options ssh pour connexion via clé privée
+      - SSH_OPTS="-o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null"
+    ports:
+      - 8080:80

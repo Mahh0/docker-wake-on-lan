@@ -1,31 +1,31 @@
 # Docker Wake-on-LAN
 
-Ce projet permet de gÈrer l'allumage, l'extinction et l'Ètat des appareils via des commandes Wake-on-LAN et SSH dans un conteneur Docker.
+Ce projet permet de g√©rer l'allumage, l'extinction et l'√©tat des appareils via des commandes Wake-on-LAN et SSH dans un conteneur Docker.
 
-## PrÈ-requis
+## Pr√©-requis
 
-1. **Docker** et **Docker Compose** doivent Ítre installÈs sur votre systËme. Si ce n'est pas dÈj‡ fait, vous pouvez les installer en suivant les instructions sur le site officiel de Docker :
+1. **Docker** et **Docker Compose** doivent √™tre install√©s sur votre syst√®me. Si ce n'est pas d√©j√† fait, vous pouvez les installer en suivant les instructions sur le site officiel de Docker :
    - [Installer Docker](https://docs.docker.com/get-docker/)
    - [Installer Docker Compose](https://docs.docker.com/compose/install/)
 
-2. **Configurer les paramËtres du noyau Linux** pour permettre le broadcast des paquets Wake-on-LAN. ExÈcutez les commandes suivantes pour configurer les paramËtres requis :
+2. **Configurer les param√®tres du noyau Linux** pour permettre le broadcast des paquets Wake-on-LAN. Ex√©cutez les commandes suivantes pour configurer les param√®tres requis :
 
    ```bash
    sudo sysctl -w net.ipv4.icmp_echo_ignore_broadcasts=0
    sudo sysctl -w net.ipv4.conf.all.bc_forwarding=1
    sudo sysctl -w net.ipv4.conf.<interface>.bc_forwarding=1
    ```
-   Pensez ‡ remplacer <interface> par l'interface rÈseau correspondante. 
+   Pensez √† remplacer <interface> par l'interface r√©seau correspondante. 
    
-   Pour rendre ces changements persistants aprËs un redÈmarrage, ajoutez les lignes correspondantes dans un fichier de configuration dans '/etc/sysctl.d/', comme ceci :
+   Pour rendre ces changements persistants apr√®s un red√©marrage, ajoutez les lignes correspondantes dans un fichier de configuration dans '/etc/sysctl.d/', comme ceci (attention j'ai pas test√© j'ai g√©n√©r√© √ßa avec Copilot) :
    ```bash
    echo "net.ipv4.icmp_echo_ignore_broadcasts=0" | sudo tee -a /etc/sysctl.d/99-custom.conf
    echo "net.ipv4.conf.all.bc_forwarding=1" | sudo tee -a /etc/sysctl.d/99-custom.conf
-   echo "net.ipv4.conf.docker0.bc_forwarding=1" | sudo tee -a /etc/sysctl.d/99-custom.conf
+   echo "net.ipv4.conf.<interface>.bc_forwarding=1" | sudo tee -a /etc/sysctl.d/99-custom.conf
    ```
    
 ## Installation
-1. Cloner le dÈpot :
+1. Cloner le d√©pot :
   ```bash
   git clone https://github.com/TON_UTILISATEUR_GITHUB/docker-wake-on-lan.git
   cd docker-wake-on-lan
@@ -54,9 +54,9 @@ timeout_on=500
 timeout_off=400
   ```
   
-3. Ajoutez, si nÈcessaire, la clÈ privÈe nÈcessaire pour se connecter aux appareils via SSH dans le rÈpertoire docker_files/private_keys.
+3. Ajoutez, si n√©cessaire, la cl√© priv√©e n√©cessaire pour se connecter aux appareils via SSH dans le r√©pertoire docker_files/private_keys.
 
-4. Construisez et dÈmarrez le conteneur Docker :
+4. Construisez et d√©marrez le conteneur Docker :
   ```bash
   docker-compose up --build
   ```
@@ -68,12 +68,12 @@ timeout_off=400
   http://<adresse_ip_serveur>:8080/nas_control.php?action=on&device=device1
   ```
   
-- Pour Èteindre un appareil :
+- Pour √©teindre un appareil :
   ```bash
   http://<adresse_ip_serveur>:8080/nas_control.php?action=off&device=device1
   ```
   
-- Pour vÈrifier l'Ètat d'un appareil :
+- Pour v√©rifier l'√©tat d'un appareil :
   ```bash
   http://<adresse_ip_serveur>:8080/nas_control.php?action=getstatus&device=device1
   ```
